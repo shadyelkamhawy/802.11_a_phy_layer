@@ -1,5 +1,5 @@
 
-function s = top_tx(R,MSC,ppdu_length,FC,MAC1,MAC2,MAC3)
+function s = top_tx(R,MSC,ppdu_length,FC,MAC1,MAC2,MAC3,TIME_STAMP)
 constants;
 global ltf_fft;
 global stf_fft;
@@ -21,7 +21,7 @@ preamble = [stf;ltf;sig];
 % PAYLAOD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % payload bits
-[bits_final,Nsym] = payload_bits(FC,MAC1,MAC2,MAC3,NDBPS,ppdu_length);
+[bits_final,Nsym] = payload_bits(FC,MAC1,MAC2,MAC3,TIME_STAMP,NDBPS,ppdu_length);
 % scramble
 seed=93;
 scrambled_bits = scrambler(bits_final,seed);
