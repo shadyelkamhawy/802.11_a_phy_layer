@@ -1,6 +1,12 @@
 
-function [PKT_START,...PKT_END,
-    MSC,R,PPDU_LENGTH,PKT_TYPE,MAC1,MAC2,MAC3] = top_rx(complex_data)
+function [...
+    PKT_START,PKT_END,...
+    MSC,R,...
+    PPDU_LENGTH,...
+    PKT_TYPE,...
+    MAC1,MAC2,MAC3...
+    TIME_STAMP...
+    ] = top_rx(complex_data)
 constants;
 global stf_len;
 global ltf_len;
@@ -11,7 +17,7 @@ global G1;
 global G2;
 data_length = length(complex_data);
 PKT_START = [];
-% PKT_END = [];
+PKT_END = [];
 MSC = [];
 R = [];
 PPDU_LENGTH = [];
@@ -19,7 +25,7 @@ PKT_TYPE = [];
 MAC1 = [];
 MAC2 = [];
 MAC3 = [];
-
+TIME_STAMP = [];
 n = 1;
 while n <= data_length
     if (n-1+stf_len) <= data_length
@@ -39,10 +45,20 @@ while n <= data_length
                     if valid
                         [msc,r,numDBPS] = msc_code_rate(rate);
                         ppdu_length = bi2de(LENGTH);
+                        pkt_samples_len = stf_len + ltf_len + cyc_prefix_len+ symb_len + (ppdu_length*8*numDBPS*80);
+                        noise_power = (norm(complex_data(n-64 + (0:63))))^2;
+                        for m = (min((data_length-symb_len),n+pkt_samples_len)):(data_length-symb_len)
+                            x_power = (norm(complex_data(m + (0:63))))^2;
+                            if x_power < 1.1*noise_power
+                                pkt_end = m;
+                                break;
+                            end
+                        end
                         
                         PPDU_LENGTH = [PPDU_LENGTH;ppdu_length];
                         R = [R;r];
                         PKT_START = [PKT_START;n];
+                        PKT_END = [PKT_END;pkt_end];
                         % PKT_END = [PKT_END;pkt_end];
                         
                         mac1 = "000000000000";
@@ -61,12 +77,13 @@ while n <= data_length
                             end
                             ppdu_scrambled = viterbi_decoder(bits_deinter,G1,G2,r);
                             ppdu = descrambler(ppdu_scrambled);
-                            [pkt_type,mac1,mac2,mac3] = packet_info(ppdu);
+                            [pkt_type,mac1,mac2,mac3,time_stamp] = packet_info(ppdu);
                         end
                         PKT_TYPE = [PKT_TYPE;pkt_type];
                         MAC1 = [MAC1;mac1];
                         MAC2 = [MAC2;mac2];
                         MAC3 = [MAC3;mac3];
+                        TIME_STAMP = [TIME_STAMP,time_stamp];
                     end
                 end
             end
