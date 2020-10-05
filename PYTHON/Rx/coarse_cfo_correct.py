@@ -8,7 +8,7 @@ def coarse_cfo_correct(complex_data):
     sts_len = c.sts_len
     stf_len = c.stf_len
     length = stf_len - sts_len
-    v = np.arange(1, length)
+    v = np.arange(0, length)
     # For packet determine frequency offset and correct signal by applying complex offset
     # Calculate frequency offset, df:
     df_0 = (1 / sts_len)
