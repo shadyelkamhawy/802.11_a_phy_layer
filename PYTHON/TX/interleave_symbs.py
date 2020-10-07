@@ -1,5 +1,7 @@
 import numpy as np
 from constants import w48, w96, w192, w288
+
+
 w48 = np.array(w48).reshape(48)
 w96 = np.array(w96).reshape(96)
 w192 = np.array(w192).reshape(192)
