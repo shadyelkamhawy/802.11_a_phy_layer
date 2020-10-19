@@ -2,6 +2,7 @@
 % SIGNAL FIELD DECODER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [rate,res,length,parity,tail] = sig_field_decoder(sig,Hinv)
+constants;
 % symbol length
 global symb_len;
 symb_len = 64;

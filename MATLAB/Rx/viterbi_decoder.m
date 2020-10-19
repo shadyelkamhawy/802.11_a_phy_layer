@@ -14,6 +14,7 @@ puncpat12 = [1,1]; % 1/2
 puncpat34 = [1,1,1,0,0,1]; % 3/4
 puncpat23 = [1,1,1,0]; % 2/3
 if R == "1/2"
+    
     if length(puncpat12) > M
         puncpat_ext = puncpat12(1:M);
     else
@@ -45,8 +46,8 @@ else
     end
 end
 
-N = M/2; % length of decoded bits for code rate = 1/2
 
+N = M/2; % length of decoded bits for code rate = 1/2
 g1 = find(G1);
 g2= find(G2);
 

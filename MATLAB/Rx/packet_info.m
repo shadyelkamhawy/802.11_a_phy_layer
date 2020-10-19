@@ -7,7 +7,7 @@ elseif isequal(transpose(ppdu(16 + 2 + (1:6))), [1,0,0,0,0,0])
 else
     type = 'N/A';
 end
-S
+
 m = 12*4;
 m1 = 16+32+(1:m);
 m2 = max(m1)+(1:m);

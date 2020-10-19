@@ -4,7 +4,7 @@ function [...
     MSC,R,...
     PPDU_LENGTH,...
     PKT_TYPE,...
-    MAC1,MAC2,MAC3...
+    MAC1,MAC2,MAC3,...
     TIME_STAMP...
     ] = top_rx(complex_data)
 constants;
@@ -49,7 +49,7 @@ while n <= data_length
                         noise_power = (norm(complex_data(n-64 + (0:63))))^2;
                         for m = (min((data_length-symb_len),n+pkt_samples_len)):(data_length-symb_len)
                             x_power = (norm(complex_data(m + (0:63))))^2;
-                            if x_power < 1.1*noise_power
+                            if x_power <= 1.1*noise_power
                                 pkt_end = m;
                                 break;
                             end
@@ -66,7 +66,7 @@ while n <= data_length
                         mac3 = "000000000000";
                         pkt_type = "N/A";
                         
-                        mmax = ceil(192/numDBPS);
+                        mmax = ceil(220/numDBPS);
                         if (n-1 + stf_len+ltf_len + sig_len + cyc_prefix_len + ((mmax-1)*(cyc_prefix_len+symb_len)) + symb_len) <= data_length
                             bits_deinter = [];
                             for m = 1:mmax
@@ -75,7 +75,8 @@ while n <= data_length
                                 bits_demod = demodulate_symb(symb,msc,Hinv);
                                 bits_deinter = [bits_deinter;deinterleave_symb(bits_demod,msc)];
                             end
-                            ppdu_scrambled = viterbi_decoder(bits_deinter,G1,G2,r);
+                            bits_depunct = depuncture_bits(bits_deinter,R);
+                            ppdu_scrambled = viterbi_decoder(bits_depunct,G1,G2,r);
                             ppdu = descrambler(ppdu_scrambled);
                             [pkt_type,mac1,mac2,mac3,time_stamp] = packet_info(ppdu);
                         end
