@@ -11,5 +11,5 @@ Nsym = ceil((16+(8*4)+(3*4*12)+16+(8*ppdu_length)+6)/NDBPS);
 Ndata = Nsym*NDBPS;
 Npad = Ndata - (16+(8*4)+(3*4*12)+16+(8*ppdu_length)+6);
 
-ppdu(1:12) = di2be(TIME_STAMP);
+ppdu(1:12) = de2bi(TIME_STAMP,12);
 bits_final=[service_field;preMAC;MAC1b;MAC2b;MAC3b;zeros(16,1);ppdu;ppdu_tail;zeros(Npad,1)];
