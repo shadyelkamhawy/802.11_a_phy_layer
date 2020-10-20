@@ -1,0 +1,2 @@
+Start Sample,Payload length,Bit Rate,Modulation,Code Rate,MAC1,MAC2,MAC3,Packet Type
+1001,2000.0,192,64-QAM,2/3,BEAC09BEAC09,BEAC08BEAC08,BEAC07BEAC07,Beacon
