@@ -28,9 +28,10 @@ MAC3 = [];
 TIME_STAMP = [];
 n = 1;
 while n <= data_length
-    if (n-1+stf_len) <= data_length
-        stf = complex_data(n-1+(1:stf_len));
-        loc = detect_frame(stf);
+    if (n-1+stf_len+10) <= data_length
+        stf = complex_data(n-1+(1:(10+stf_len)));
+        [loc, offset] = detect_frame(stf);
+        n = n + offset;
         if loc
             df = coarse_cfo_correct(stf);
             if (n-1+stf_len+ ltf_len) <= data_length
@@ -66,7 +67,7 @@ while n <= data_length
                         mac3 = "000000000000";
                         pkt_type = "N/A";
                         
-                        mmax = ceil(220/numDBPS);
+                        mmax = ceil(232/numDBPS);
                         if (n-1 + stf_len+ltf_len + sig_len + cyc_prefix_len + ((mmax-1)*(cyc_prefix_len+symb_len)) + symb_len) <= data_length
                             bits_deinter = [];
                             for m = 1:mmax
