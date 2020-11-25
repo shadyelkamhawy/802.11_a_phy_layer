@@ -1,0 +1,18 @@
+The standard notation, also called canonical format, for MAC addresses is written in 
+transmission bit order with the least significant bit transmitted first.
+
+IEEE 802.3 (Ethernet) and IEEE 802.4 (Token Bus) send the bytes (octets) over the wire,
+ left-to-right, with least significant bit in each byte first, while IEEE 802.5 (Token Ring)
+and IEEE 802.6 send the bytes over the wire with the most significant bit first.
+
+An address in canonical form 12-34-56-78-9A-BC would be transmitted over the wire as bits 
+10000100 00101100 01101010 00011110 01011001 00111101 in the standard 
+transmission order (least significant bit first).
+
+But for Token Ring networks, it would be transmitted as bits 00010010 00110100 01010110 
+01111000 10011010 10111100 in most-significant-bit first order. The latter might be 
+incorrectly displayed as 48-2C-6A-1E-59-3D. This is referred to as bit-reversed order, non-
+canonical form, MSB format, IBM format, or Token Ring format. Canonical form is generally 
+preferred, and used by all modern implementations.
+
+-Dayal Rai - https://stackoverflow.com/questions/17398882/network-byte-order-on-mac-address
